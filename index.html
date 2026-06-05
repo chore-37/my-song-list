@@ -50,18 +50,6 @@
   table { width: 100%; border-collapse: collapse; }
   th, td { border-bottom: 1px solid #eee; padding: 15px; text-align: left; }
   
-  /* ジャンルタグのスタイル */
-  .genre-tag {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.75rem;
-    font-weight: bold;
-    background: #e0f2fe;
-    color: #0369a1;
-    white-space: nowrap;
-  }
-
   /* 得意曲カードのスタイル（縦並び） */
   .pickup-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
   .pickup-card { 
@@ -115,242 +103,14 @@
 <section id="list">
   <h2>🔍 曲リスト (<span id="songCount">0</span>曲)</h2>
   <div class="search-box">
-    <input id="songSearch" placeholder="曲名/歌手/ジャンルで検索" oninput="filterList()">
+    <input id="songSearch" placeholder="曲/歌手検索" oninput="filterList()">
   </div>
   <table id="songTable"></table>
 </section>
 
 <script>
 const songs = [
-  {title:"🎸マリーゴールド", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸君はロックを聴かない", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸貴方解剖純愛歌", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸ハート", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸ハレノヒ", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸裸の心", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸3636", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸桜が降る夜は", artist:"あいみょん", genre:"J-POP"}, 
-  {title:"🎸🎤革命道中", artist:"アイナ・ジ・エンド", genre:"J-POP"}, 
-  {title:"🎙️ラピスラズリ", artist:"藍井エイル", genre:"アニソン"}, 
-  {title:"🎸10月無口な君を忘れる", artist:"あたらよ", genre:"J-POP"}, 
-  {title:"🎸🎤8.8", artist:"あたらよ", genre:"J-POP"}, 
-  {title:"🎸貴方の恋人になりたいのです", artist:"阿部真央", genre:"J-POP"}, 
-  {title:"🎸🎤I wanna see you", artist:"阿部真央", genre:"J-POP"}, 
-  {title:"🎸おかえり", artist:"絢香", genre:"J-POP"}, 
-  {title:"🎙️三日月", artist:"絢香", genre:"J-POP"}, 
-  {title:"🎸赤い糸", artist:"新垣結衣", genre:"J-POP"}, 
-  {title:"🎸🎤虹", artist:"二宮和也", genre:"J-POP"}, 
-  {title:"🎸君がくれた夏", artist:"家入レオ", genre:"J-POP"}, 
-  {title:"🎸🎤Shine", artist:"家入レオ", genre:"J-POP"}, 
-  {title:"🎸🎤未完成", artist:"家入レオ", genre:"J-POP"}, 
-  {title:"🎙️風が吹いている", artist:"いきものがかり", genre:"J-POP"}, 
-  {title:"🎸🎤気まぐれロマンティック", artist:"いきものがかり", genre:"J-POP"}, 
-  {title:"🎙️ブルーバード", artist:"いきものがかり", genre:"アニソン"}, 
-  {title:"🎸コイスルオトメ", artist:"いきものがかり", genre:"J-POP"}, 
-  {title:"🎸ありがとう", artist:"いきものがかり", genre:"J-POP"}, 
-  {title:"🎙️YELL", artist:"いきものがかり", genre:"J-POP"}, 
-  {title:"🎸🎤スパークル", artist:"幾田りら", genre:"J-POP"}, 
-  {title:"🎙️answer", artist:"幾田りら", genre:"J-POP"}, 
-  {title:"🎙️FirstLove", artist:"宇多田ヒカル", genre:"J-POP"}, 
-  {title:"🎸センチメンタル・キス", artist:"汐れいら", genre:"J-POP"}, 
-  {title:"🎙️プラネタリウム", artist:"大塚愛", genre:"J-POP"}, 
-  {title:"🎸🎤さくらんぼ", artist:"大塚愛", genre:"J-POP"}, 
-  {title:"🎸ちっぽけな愛のうた", artist:"大原櫻子", isSpecial:true, genre:"J-POP"}, 
-  {title:"🎸瞳", artist:"大原櫻子", genre:"J-POP"}, 
-  {title:"🎙️変わらないもの", artist:"奥華子", genre:"アニソン"}, 
-  {title:"🎸🎤ガーネット", artist:"奥華子", genre:"アニソン"}, 
-  {title:"🎸アンマー", artist:"かりゆし58", genre:"J-POP"}, 
-  {title:"🎸魔法の絨毯", artist:"川崎鷹也", genre:"J-POP"}, 
-  {title:"🎸金木犀の夜", artist:"きのこ帝国", genre:"邦ロック"}, 
-  {title:"🎸怪獣の腕の中", artist:"きのこ帝国", genre:"邦ロック"}, 
-  {title:"🎸東京", artist:"きのこ帝国", genre:"邦ロック"}, 
-  {title:"🎸クロノスタシス", artist:"きのこ帝国", genre:"邦ロック"}, 
-  {title:"🎸栞", artist:"クリープハイプ", genre:"邦ロック"}, 
-  {title:"🎸exダーリン", artist:"クリープハイプ", genre:"邦ロック"}, 
-  {title:"🎸おやすみ泣き声、さよなら歌姫", artist:"クリープハイプ", genre:"邦ロック"}, 
-  {title:"🎸本当なんてぶっ飛ばしてよ", artist:"クリープハイプ", genre:"邦ロック"}, 
-  {title:"🎸星座になれたら", artist:"結束バンド", isSpecial:true, genre:"アニソン"}, 
-  {title:"🎙️夏の花は向日葵だけじゃない", artist:"欅坂46", genre:"アイドル"}, 
-  {title:"🎸たばこ", artist:"コレサワ", genre:"J-POP"}, 
-  {title:"🎸恋人失格", artist:"コレサワ", genre:"J-POP"}, 
-  {title:"🎸歌うたいのバラッド", artist:"斉藤和義", genre:"J-POP"}, 
-  {title:"🎙️五月雨よ", artist:"櫻坂46", genre:"アイドル"}, 
-  {title:"🎸フラレガイガール", artist:"さユり", isSpecial:true, genre:"J-POP"}, 
-  {title:"🎸平行線", artist:"さユり", genre:"アニソン"}, 
-  title:"🎸ミカヅキ", artist:"さユり", genre:"アニソン"}, 
-  {title:"🎸十億年", artist:"さユり", genre:"J-POP"}, 
-  {title:"🎸丸の内サディスティック", artist:"椎名林檎", genre:"J-POP"}, 
-  {title:"🎙️アリエッティソング", artist:"ジブリ", genre:"ジブリ"}, 
-  {title:"🎸風になる", artist:"ジブリ", genre:"ジブリ"}, 
-  {title:"🎸🎤いつも何度でも", artist:"ジブリ", genre:"ジブリ"}, 
-  {title:"🎸さよならの夏", artist:"ジブリ", genre:"ジブリ"}, 
-  {title:"🎙️テルーの唄", artist:"ジブリ", genre:"ジブリ"}, 
-  {title:"🎙️正しくなれない", artist:"ずっと真夜中でいいのに。", genre:"J-POP"}, 
-  {title:"🎙️秒針を噛む", artist:"ずっと真夜中でいいのに。", genre:"J-POP"}, 
-  {title:"🎸もしも僕に", artist:"関取花", genre:"J-POP"}, 
-  {title:"🎸地獄先生", artist:"相対性理論", genre:"邦ロック"}, 
-  {title:"🎸おはようオーパーツ", artist:"相対性理論", genre:"邦ロック"}, 
-  {title:"🎸百年戦争", artist:"相対性理論", genre:"邦ロック"}, 
-  {title:"🎸気になるあの娘", artist:"相対性理論", genre:"邦ロック"}, 
-  {title:"🎸世界が終わる夜に", artist:"チャットモンチー", genre:"邦ロック"}, 
-  {title:"🎸染まるよ", artist:"チャットモンチー", genre:"邦ロック"}, 
-  {title:"🎙️Never glow up", artist:"ちゃんみな", genre:"J-POP"}, 
-  {title:"🎸ハレンチ", artist:"ちゃんみな", genre:"J-POP"}, 
-  {title:"🎙️明日への手紙", artist:"手嶌葵", genre:"J-POP"}, 
-  {title:"🎙️レット・イット・ゴー~ありのままで~", artist:"ディズニー", genre:"ディズニー"}, 
-  {title:"🎙️生まれてはじめて", artist:"ディズニー", genre:"ディズニー"}, 
-  {title:"🎙️パート・オブ・ユア・ワールド", artist:"ディズニー", genre:"ディズニー"}, 
-  {title:"🎙️ホール・ニュー・ワールド", artist:"ディズニー", genre:"ディズニー"}, 
-  {title:"🎸紡ぐ", artist:"とた", genre:"J-POP"}, 
-  {title:"🎸🎤涙そうそう", artist:"夏川りみ", genre:"歌謡曲"}, 
-  {title:"🎙️島唄", artist:"夏川りみ", genre:"歌謡曲"}, 
-  {title:"🎸🎤糸", artist:"中島みゆき", genre:"歌謡曲"}, 
-  {title:"🎙️ありがとうForever...", artist:"西内まりや", genre:"J-POP"}, 
-  {title:"🎸ワンルーム", artist:"にしな", isSpecial:true, genre:"J-POP"}, 
-  {title:"🎸ヘビースモーク", artist:"にしな", isSpecial:true, genre:"J-POP"}, 
-  {title:"🎸青藍遊泳", artist:"にしな", genre:"J-POP"}, 
-  {title:"🎸1999", artist:"にしな", genre:"J-POP"}, 
-  {title:"🎙️会いたくて会いたくて", artist:"西野カナ", genre:"J-POP"}, 
-  {title:"🎙️トリセツ", artist:"西野カナ", genre:"J-POP"}, 
-  {title:"🎙️if", artist:"西野カナ", genre:"アニソン"}, 
-  {title:"🎸Dear...", artist:"西野カナ", genre:"J-POP"}, 
-  {title:"🎸🎤たとえ どんなに...", artist:"西野カナ", genre:"J-POP"}, 
-  {title:"🎸ひまわりの約束", artist:"秦基博", genre:"映画主題歌"}, 
-  {title:"🎙️恋愛サーキュレーション", artist:"花澤香菜", genre:"アニソン"}, 
-  {title:"🎙️MY ALL", artist:"浜崎あゆみ", genre:"J-POP"}, 
-  {title:"🎙️SEASONS", artist:"浜崎あゆみ", genre:"J-POP"}, 
-  {title:"🎙️Voyage", artist:"浜崎あゆみ", genre:"J-POP"}, 
-  {title:"🎸1999", artist:"羊文学", genre:"邦ロック"}, 
-  {title:"🎸声", artist:"羊文学", genre:"邦ロック"}, 
-  {title:"🎸ハナミズキ", artist:"一青窈", genre:"J-POP"}, 
-  {title:"🎸かなしくないよ", artist:"フジタカコ", genre:"J-POP"}, 
-  {title:"🎸夜明けと蛍", artist:"ボカロ", genre:"ボカロ"}, 
-  {title:"🎙️からくりピエロ", artist:"ボカロ", genre:"ボカロ"}, 
-  {title:"🎙️夏恋花火", artist:"ボカロ", genre:"ボカロ"}, 
-  {title:"🎙️ヴァンパイア", artist:"ボカロ", genre:"ボカロ"}, 
-  {title:"🎸恋人ごっこ", artist:"マカロニえんぴつ", isSpecial:true, genre:"邦ロック"}, 
-  {title:"🎸ブルーベリーナイツ", artist:"マカロニえんぴつ", isSpecial:true, genre:"邦ロック"}, 
-  {title:"🎸ミスターブルースカイ", artist:"マカロニえんぴつ", genre:"邦ロック"}, 
-  {title:"🎸カワキヲアメク", artist:"美波", genre:"アニソン"}, 
-  {title:"🎙️星月夜", artist:"由薫", genre:"J-POP"}, 
-  {title:"🎸🎤かくれんぼ", artist:"優里", genre:"J-POP"}, 
-  {title:"🎸ドライフラワー", artist:"優里", genre:"J-POP"}, 
-  {title:"🎸🎤メリーゴーランド", artist:"優里", genre:"アニソン"}, 
-  {title:"🎙️ベテルギウス", artist:"優里", genre:"J-POP"}, 
-  {title:"🎸🎤レオ", artist:"優里", genre:"J-POP"}, 
-  {title:"🎸若者のすべて", artist:"ヨルシカ", genre:"邦ロック"}, 
-  {title:"🎸嘘月", artist:"ヨルシカ", genre:"アニメ映画"}, 
-  {title:"🎙️盗作", artist:"ヨルシカ", genre:"J-POP"}, 
-  {title:"🎸花に亡霊", artist:"ヨルシカ", genre:"アニメ映画"}, 
-  {title:"🎸言って。", artist:"ヨルシカ", genre:"J-POP"}, 
-  {title:"🎸ヒッチコック", artist:"ヨルシカ", genre:"J-POP"}, 
-  {title:"🎙️ただ君に晴れ", artist:"ヨルシカ", genre:"J-POP"}, 
-  {title:"🎸想い人", artist:"緑黄色社会", isSpecial:true, genre:"映画主題歌"}, 
-  {title:"🎸shout baby", artist:"緑黄色社会", genre:"アニソン"}, 
-  {title:"🎙️花になって", artist:"緑黄色社会", genre:"アニソン"}, 
-  {title:"🎸好きでよかった。", artist:"リーガルリリー", genre:"邦ロック"}, 
-  {title:"🎸浮気されたけどまだ好きって曲。", artist:"りりあ", genre:"J-POP"}, 
-  {title:"🎙️ライオン", artist:"ワルキューレ", genre:"アニソン"}, 
-  {title:"🎸🎤いけないボーダーライン", artist:"ワルキューレ", genre:"アニソン"}, 
-  {title:"🎸穴空きの空", artist:"adieu", genre:"アニソン"}, 
-  {title:"🎸よるのあと", artist:"adieu", genre:"J-POP"}, 
-  {title:"🎸楓", artist:"adieu", genre:"J-POP"}, 
-  {title:"🎸風のゆくえ", artist:"Ado", genre:"アニメ映画"}, 
-  {title:"🎸ギラギラ", artist:"Ado", genre:"J-POP"}, 
-  {title:"🎙️踊", artist:"Ado", genre:"J-POP"}, 
-  {title:"🎸えりあし", artist:"aiko", genre:"J-POP"}, 
-  {title:"🎸カブトムシ", artist:"aiko", genre:"J-POP"}, 
-  {title:"🎙️ボーイフレンド", artist:"aiko", genre:"J-POP"}, 
-  {title:"🎸🎤もっと", artist:"aiko", genre:"J-POP"}, 
-  {title:"🎸🎤相思相愛", artist:"aiko", genre:"映画主題歌"}, 
-  {title:"🎸コイワズライ", artist:"Aimer", genre:"J-POP"}, 
-  {title:"🎸六等星の夜", artist:"Aimer", genre:"アニソン"}, 
-  {title:"🎙️蝶蝶結び", artist:"Aimer", genre:"J-POP"}, 
-  {title:"🎸カタオモイ", artist:"Aimer", genre:"J-POP"}, 
-  {title:"🎸🎤あなたに出会わなければ", artist:"Aimer", genre:"アニソン"}, 
-  {title:"🎙️会いたかった", artist:"AKB48", genre:"アイドル"}, 
-   {title:"🎙️涙サプライズ", artist:"AKB48", genre:"アイドル"}, 
-  {title:"🎙️ヘビーローテーション", artist:"AKB48", genre:"アイドル"}, 
-  {title:"🎙️恋するフォーチュンクッキー", artist:"AKB48", genre:"アイドル"}, 
-  {title:"🎙️365日の紙飛行機", artist:"AKB48", genre:"J-POP"}, 
-  {title:"🎸HAPPYBIRTHDAY", artist:"backnumber", genre:"J-POP"}, 
-  {title:"🎸水平線", artist:"backnumber", genre:"J-POP"},
-  {title:"🎸🎤高嶺の花子さん", artist:"backnumber", genre:"J-POP"}, 
-  {title:"🎙️島人ぬ宝", artist:"BEGIN", genre:"歌謡曲"}, 
-  {title:"🎸オーケストラ", artist:"BiSH", isSpecial:true, genre:"アイドル"}, 
-  {title:"🎸星が瞬く夜に", artist:"BiSH", isSpecial:true, genre:"アイドル"}, 
-  {title:"🎸プロミスザスター", artist:"BiSH", genre:"アイドル"}, 
-  {title:"🎸beautifulさ", artist:"BiSH", genre:"アイドル"}, 
-  {title:"🎸🎤My landscape", artist:"BiSH", genre:"アイドル"}, 
-  {title:"🎸猫", artist:"DISH//", genre:"J-POP"}, 
-  {title:"🎙️やさしさで溢れるように", artist:"Flower", genre:"J-POP"}, 
-  {title:"🎙️愛唄", artist:"GReeeeN", genre:"J-POP"}, 
-  {title:"🎙️キセキ", artist:"GReeeeN", genre:"J-POP"}, 
-  {title:"🎸366日", artist:"HY", genre:"J-POP"}, 
-  {title:"🎸NAO", artist:"HY", genre:"J-POP"}, 
-  {title:"🎸拝啓、少年よ", artist:"Hamp Back", genre:"邦ロック"}, 
-  {title:"🎙️この夜を止めてよ", artist:"JUJU", genre:"J-POP"}, 
-  {title:"🎙️Over Drive", artist:"JUDY AND MARY", genre:"J-POP"}, 
-  {title:"🎸カシスオレンジ", artist:"Laughing hick", genre:"邦ロック"}, 
-  {title:"🎙️炎", artist:"LiSA", genre:"アニソン"}, 
-  {title:"🎙️crossing field", artist:"LiSA", genre:"アニソン"}, 
-  {title:"🎸ヨワネハキ", artist:"MAISONdes", genre:"J-POP"}, 
-  {title:"🎸さよなら最愛の人", artist:"mihoro", genre:"J-POP"}, 
-  {title:"🎸あなたがここにいて抱きしめることができるなら", artist:"miwa", genre:"J-POP"}, 
-  {title:"🎸ヒカリヘ", artist:"miwa", isSpecial:true, genre:"J-POP"}, 
-  {title:"🎸リブート", artist:"miwa", genre:"J-POP"}, 
-  {title:"🎸Don't Cry anymore", artist:"miwa", genre:"J-POP"}, 
-  {title:"🎸オトシモノ", artist:"miwa", genre:"J-POP"}, 
-  {title:"🎸明日も", artist:"MUSH&Co.", genre:"映画主題歌"}, 
-  {title:"🎸ちっぽけな愛のうた", artist:"MUSH&Co.", genre:"映画主題歌"}, 
-  {title:"🎸恋人ができたんだ", artist:"My Hair is Bad", genre:"邦ロック"}, 
-  {title:"🎙️Hello Again", artist:"My Little Lover", genre:"J-POP"}, 
-  {title:"🎸🎤うれし涙", artist:"MACO", genre:"J-POP"}, 
-  {title:"🎸ILOVE…", artist:"official髭男dism", genre:"J-POP"}, 
-  {title:"🎙️イエスタデイ", artist:"official髭男dism", genre:"アニメ映画"}, 
-  {title:"🎸Pretender", artist:"official髭男dism", genre:"映画主題歌"}, 
-  {title:"🎸ノーダウト", artist:"official髭男dism", genre:"J-POP"}, 
-  {title:"🎸Wherever you are", artist:"ONEOKROCK", genre:"洋楽風ロック"}, 
-  {title:"🎸欲望に満ちた青年団", artist:"ONEOKROCK", genre:"邦ロック"}, 
-  {title:"🎸生活革命", artist:"PEDRO", genre:"邦ロック"}, 
-  {title:"🎙️愛のしるし", artist:"PUFFY", genre:"J-POP"}, 
-  {title:"🎙️M", artist:"PRINCESS PRINCESS", genre:"J-POP"}, 
-  {title:"🎙️そっけない", artist:"RADWIMPS", genre:"J-POP"}, 
-  {title:"🎸なんでもないや", artist:"RADWIMPS", isSpecial:true, genre:"アニメ映画"}, 
-  {title:"🎙️すずめ", artist:"RADWIMPS", genre:"アニメ映画"}, 
-  {title:"🎙️グランドエスケープ", artist:"RADWIMPS", genre:"アニメ映画"}, 
-  {title:"🎸🎤愛にできることはまだあるかい", artist:"RADWIMPS", genre:"アニメ映画"}, 
-  {title:"🎸memeshe", artist:"RADWIMPS", genre:"J-POP"}, 
-  {title:"🎙️ANIMA", artist:"ReoNa", genre:"アニソン"}, 
-  {title:"🎙️春風", artist:"Rihwa", genre:"J-POP"}, 
-  {title:"🎸いつか", artist:"SaucyDog", genre:"邦ロック"}, 
-  {title:"🎸結", artist:"SaucyDog", genre:"邦ロック"}, 
-  {title:"🎸シンデレラボーイ", artist:"SaucyDog", genre:"邦ロック"}, 
-  {title:"🎸眠り姫", artist:"sekai no owari", genre:"J-POP"}, 
-  {title:"🎸輝く月のように", artist:"Superfly", genre:"J-POP"}, 
-  {title:"🎙️君の知らない物語", artist:"supercell", genre:"アニソン"}, 
-  {title:"🎸晩餐歌", artist:"tuki.", genre:"J-POP"}, 
-  {title:"🎸愛の賞味期限", artist:"tuki.", genre:"J-POP"}, 
-  {title:"🎸プロローグ", artist:"Uru", genre:"J-POP"}, 
-  {title:"🎸🎤それを愛と呼ぶなら", artist:"Uru", genre:"J-POP"}, 
-  {title:"🎸🎤LoveSong", artist:"Uru", genre:"J-POP"}, 
-  {title:"🎸あなたがいることで", artist:"Uru", genre:"J-POP"}, 
-  {title:"🎸フリージア", artist:"Uru", genre:"アニソン"}, 
-  {title:"🎸3月9日", artist:"Uru", genre:"J-POP"}, 
-  {title:"🎸怪獣の花唄", artist:"Vaundy", genre:"J-POP"}, 
-  {title:"🎸踊り子", artist:"Vaundy", genre:"J-POP"}, 
-  {title:"🎸そんなbitterな話", artist:"Vaundy", genre:"J-POP"}, 
-  {title:"🎙️夜に駆ける", artist:"YOASOBI", genre:"J-POP"}, 
-  {title:"🎙️怪物", artist:"YOASOBI", genre:"アニソン"}, 
-  {title:"🎙️群青", artist:"YOASOBI", genre:"J-POP"}, 
-  {title:"🎙️アイドル", artist:"YOASOBI", genre:"アニソン"}, 
-  {title:"🎙️アンコール", artist:"YOASOBI", genre:"J-POP"}, 
-  {title:"🎸Summersong", artist:"YUI", genre:"J-POP"}, 
-  {title:"🎸HELLO", artist:"YUI", genre:"J-POP"}, 
-  {title:"🎸Namidairo", artist:"YUI", genre:"J-POP"}, 
-  {title:"🎸🎤YOU", artist:"YUI", genre:"J-POP"}, 
-  {title:"🎸Good-bye days", artist:"YUI", genre:"映画主題歌"}, 
-  {title:"🎸secret base", artist:"zone", genre:"J-POP"}
+  {title:"🎸マリーゴールド", artist:"あいみょん"}, {title:"🎸君はロックを聴かない", artist:"あいみょん"}, {title:"🎸貴方解剖純愛歌", artist:"あいみょん"}, {title:"🎸ハート", artist:"あいみょん"}, {title:"🎸ハレノヒ", artist:"あいみょん"}, {title:"🎸裸の心", artist:"あいみょん"}, {title:"🎸3636", artist:"あいみょん"}, {title:"🎸桜が降る夜は", artist:"あいみょん"}, {title:"🎸🎤革命道中", artist:"アイナ・ジ・エンド"}, {title:"🎙️ラピスラズリ", artist:"藍井エイル"}, {title:"🎸10月無口な君を忘れる", artist:"あたらよ"}, {title:"🎸🎤8.8", artist:"あたらよ"}, {title:"🎸貴方の恋人になりたいのです", artist:"阿部真央"}, {title:"🎸🎤I wanna see you", artist:"阿部真央"}, {title:"🎸おかえり", artist:"絢香"}, {title:"🎙️三日月", artist:"絢香"}, {title:"🎸赤い糸", artist:"新垣結衣"}, {title:"🎸🎤虹", artist:"二宮和也"}, {title:"🎸君がくれた夏", artist:"家入レオ"}, {title:"🎸🎤Shine", artist:"家入レオ"}, {title:"🎸🎤未完成", artist:"家入レオ"}, {title:"🎙️風が吹いている", artist:"いきものがかり"}, {title:"🎸🎤気まぐれロマンティック", artist:"いきものがかり"}, {title:"🎙️ブルーバード", artist:"いきものがかり"}, {title:"🎸コイスルオトメ", artist:"いきものがかり"}, {title:"🎸ありがとう", artist:"いきものがかり"}, {title:"🎙️YELL", artist:"いきものがかり"}, {title:"🎸🎤スパークル", artist:"幾田りら"}, {title:"🎙️answer", artist:"幾田りら"}, {title:"🎙️FirstLove", artist:"宇多田ヒカル"}, {title:"🎸センチメンタル・キス", artist:"汐れいら"}, {title:"🎙️プラネタリウム", artist:"大塚愛"}, {title:"🎸🎤さくらんぼ", artist:"大塚愛"}, {title:"🎸ちっぽけな愛のうた", artist:"大原櫻子", isSpecial:true}, {title:"🎸瞳", artist:"大原櫻子"}, {title:"🎙️変わらないもの", artist:"奥華子"}, {title:"🎸🎤ガーネット", artist:"奥華子"}, {title:"🎸アンマー", artist:"かりゆし58"}, {title:"🎸魔法の絨毯", artist:"川崎鷹也"}, {title:"🎸金木犀の夜", artist:"きのこ帝国"}, {title:"🎸怪獣の腕の中", artist:"きのこ帝国"}, {title:"🎸東京", artist:"きのこ帝国"}, {title:"🎸クロノスタシス", artist:"きのこ帝国"}, {title:"🎸栞", artist:"クリープハイプ"}, {title:"🎸exダーリン", artist:"クリープハイプ"}, {title:"🎸おやすみ泣き声、さよなら歌姫", artist:"クリープハイプ"}, {title:"🎸本当なんてぶっ飛ばしてよ", artist:"クリープハイプ"}, {title:"🎸星座になれたら", artist:"結束バンド", isSpecial:true}, {title:"🎙️夏の花は向日葵だけじゃない", artist:"欅坂46"}, {title:"🎸たばこ", artist:"コレサワ"}, {title:"🎸恋人失格", artist:"コレサワ"}, {title:"🎸歌うたいのバラッド", artist:"斉藤和義"}, {title:"🎙️五月雨よ", artist:"櫻坂46"}, {title:"🎸フラレガイガール", artist:"さユり", isSpecial:true}, {title:"🎸平行線", artist:"さユり"}, {title:"🎸ミカヅキ", artist:"さユり"}, {title:"🎸十億年", artist:"さユり"}, {title:"🎸丸の内サディスティック", artist:"椎名林檎"}, {title:"🎙️アリエッティソング", artist:"ジブリ"}, {title:"🎸風になる", artist:"ジブリ"}, {title:"🎸🎤いつも何度でも", artist:"ジブリ"}, {title:"🎸さよならの夏", artist:"ジブリ"}, {title:"🎙️テルーの唄", artist:"ジブリ"}, {title:"🎙️正しくなれない", artist:"ずっと真夜中でいいのに。"}, {title:"🎙️秒針を噛む", artist:"ずっと真夜中でいいのに。"}, {title:"🎸もしも僕に", artist:"関取花"}, {title:"🎸地獄先生", artist:"相対性理論"}, {title:"🎸おはようオーパーツ", artist:"相対性理論"}, {title:"🎸百年戦争", artist:"相対性理論"}, {title:"🎸気になるあの娘", artist:"相対性理論"}, {title:"🎸世界が終わる夜に", artist:"チャットモンチー"}, {title:"🎸染まるよ", artist:"チャットモンチー"}, {title:"🎙️Never glow up", artist:"ちゃんみな"}, {title:"🎸ハレンチ", artist:"ちゃんみな"}, {title:"🎙️明日への手紙", artist:"手嶌葵"}, {title:"🎙️レット・イット・ゴー~ありのままで~", artist:"ディズニー"}, {title:"🎙️生まれてはじめて", artist:"ディズニー"}, {title:"🎙️パート・オブ・ユア・ワールド", artist:"ディズニー"}, {title:"🎙️ホール・ニュー・ワールド", artist:"ディズニー"}, {title:"🎸紡ぐ", artist:"とた"}, {title:"🎸🎤涙そうそう", artist:"夏川りみ"}, {title:"🎙️島唄", artist:"夏川りみ"}, {title:"🎸🎤糸", artist:"中島みゆき"}, {title:"🎙️ありがとうForever...", artist:"西内まりや"}, {title:"🎸ワンルーム", artist:"にしな", isSpecial:true}, {title:"🎸ヘビースモーク", artist:"にしな", isSpecial:true}, {title:"🎸青藍遊泳", artist:"にしな"}, {title:"🎸1999", artist:"にしな"}, {title:"🎙️会いたくて会いたくて", artist:"西野カナ"}, {title:"🎙️トリセツ", artist:"西野カナ"}, {title:"🎙️if", artist:"西野カナ"}, {title:"🎸Dear...", artist:"西野カナ"}, {title:"🎸🎤たとえ どんなに...", artist:"西野カナ"}, {title:"🎸ひまわりの約束", artist:"秦基博"}, {title:"🎙️恋愛サーキュレーション", artist:"花澤香菜"}, {title:"🎙️MY ALL", artist:"浜崎あゆみ"}, {title:"🎙️SEASONS", artist:"浜崎あゆみ"}, {title:"🎙️Voyage", artist:"浜崎あゆみ"}, {title:"🎸1999", artist:"羊文学"}, {title:"🎸声", artist:"羊文学"}, {title:"🎸ハナミズキ", artist:"一青窈"}, {title:"🎸かなしくないよ", artist:"フジタカコ"}, {title:"🎸夜明けと蛍", artist:"ボカロ"}, {title:"🎙️からくりピエロ", artist:"ボカロ"}, {title:"🎙️夏恋花火", artist:"ボカロ"}, {title:"🎙️ヴァンパイア", artist:"ボカロ"}, {title:"🎸恋人ごっこ", artist:"マカロニえんぴつ", isSpecial:true}, {title:"🎸ブルーベリーナイツ", artist:"マカロニえんぴつ", isSpecial:true}, {title:"🎸ミスターブルースカイ", artist:"マカロニえんぴつ"}, {title:"🎸カワキヲアメク", artist:"美波"}, {title:"🎙️星月夜", artist:"由薫"}, {title:"🎸🎤かくれんぼ", artist:"優里"}, {title:"🎸ドライフラワー", artist:"優里"}, {title:"🎸🎤メリーゴーランド", artist:"優里"}, {title:"🎙️ベテルギウス", artist:"優里"}, {title:"🎸🎤レオ", artist:"優里"}, {title:"🎸若者のすべて", artist:"ヨルシカ"}, {title:"🎸嘘月", artist:"ヨルシカ"}, {title:"🎙️盗作", artist:"ヨルシカ"}, {title:"🎸花に亡霊", artist:"ヨルシカ"}, {title:"🎸言って。", artist:"ヨルシカ"}, {title:"🎸ヒッチコック", artist:"ヨルシカ"}, {title:"🎙️ただ君に晴れ", artist:"ヨルシカ"}, {title:"🎸想い人", artist:"緑黄色社会", isSpecial:true}, {title:"🎸shout baby", artist:"緑黄色社会"}, {title:"🎙️花になって", artist:"緑黄色社会"}, {title:"🎸好きでよかった。", artist:"リーガルリリー"}, {title:"🎸浮気されたけどまだ好きって曲。", artist:"りりあ"}, {title:"🎙️ライオン", artist:"ワルキューレ"}, {title:"🎸🎤いけないボーダーライン", artist:"ワルキューレ"}, {title:"🎸穴空きの空", artist:"adieu"}, {title:"🎸よるのあと", artist:"adieu"}, {title:"🎸楓", artist:"adieu"}, {title:"🎸風のゆくえ", artist:"Ado"}, {title:"🎸ギラギラ", artist:"Ado"}, {title:"🎙️踊", artist:"Ado"}, {title:"🎸えりあし", artist:"aiko"}, {title:"🎸カブトムシ", artist:"aiko"}, {title:"🎙️ボーイフレンド", artist:"aiko"}, {title:"🎸🎤もっと", artist:"aiko"}, {title:"🎸🎤相思相愛", artist:"aiko"}, {title:"🎸コイワズライ", artist:"Aimer"}, {title:"🎸六等星の夜", artist:"Aimer"}, {title:"🎙️蝶蝶結び", artist:"Aimer"}, {title:"🎸カタオモイ", artist:"Aimer"}, {title:"🎸🎤あなたに出会わなければ", artist:"Aimer"}, {title:"🎙️会いたかった", artist:"AKB48"}, {title:"🎙️涙サプライズ", artist:"AKB48"}, {title:"🎙️ヘビーローテーション", artist:"AKB48"}, {title:"🎙️恋するフォーチュンクッキー", artist:"AKB48"}, {title:"🎙️365日の紙飛行機", artist:"AKB48"}, {title:"🎸HAPPYBIRTHDAY", artist:"backnumber"}, {title:"🎸水平線", artist:"backnumber"}, {title:"🎸🎤高嶺の花子さん", artist:"backnumber"}, {title:"🎙️島人ぬ宝", artist:"BEGIN"}, {title:"🎸オーケストラ", artist:"BiSH", isSpecial:true}, {title:"🎸星が瞬く夜に", artist:"BiSH", isSpecial:true}, {title:"🎸プロミスザスター", artist:"BiSH"}, {title:"🎸beautifulさ", artist:"BiSH"}, {title:"🎸🎤My landscape", artist:"BiSH"}, {title:"🎸猫", artist:"DISH//"}, {title:"🎙️やさしさで溢れるように", artist:"Flower"}, {title:"🎙️愛唄", artist:"GReeeeN"}, {title:"🎙️キセキ", artist:"GReeeeN"}, {title:"🎸366日", artist:"HY"}, {title:"🎸NAO", artist:"HY"}, {title:"🎸拝啓、少年よ", artist:"Hamp Back"}, {title:"🎙️この夜を止めてよ", artist:"JUJU"}, {title:"🎙️Over Drive", artist:"JUDY AND MARY"}, {title:"🎸カシスオレンジ", artist:"Laughing hick"}, {title:"🎙️炎", artist:"LiSA"}, {title:"🎙️crossing field", artist:"LiSA"}, {title:"🎸ヨワネハキ", artist:"MAISONdes"}, {title:"🎸さよなら最愛の人", artist:"mihoro"}, {title:"🎸あなたがここにいて抱きしめることができるなら", artist:"miwa"}, {title:"🎸ヒカリヘ", artist:"miwa", isSpecial:true}, {title:"🎸リブート", artist:"miwa"}, {title:"🎸Don't Cry anymore", artist:"miwa"}, {title:"🎸オトシモノ", artist:"miwa"}, {title:"🎸明日も", artist:"MUSH&Co."}, {title:"🎸ちっぽけな愛のうた", artist:"MUSH&Co."}, {title:"🎸恋人ができたんだ", artist:"My Hair is Bad"}, {title:"🎙️Hello Again", artist:"My Little Lover"}, {title:"🎸🎤うれし涙", artist:"MACO"}, {title:"🎸ILOVE…", artist:"official髭男dism"}, {title:"🎙️イエスタデイ", artist:"official髭男dism"}, {title:"🎸Pretender", artist:"official髭男dism"}, {title:"🎸ノーダウト", artist:"official髭男dism"}, {title:"🎸Wherever you are", artist:"ONEOKROCK"}, {title:"🎸欲望に満ちた青年団", artist:"ONEOKROCK"}, {title:"🎸生活革命", artist:"PEDRO"}, {title:"🎙️愛のしるし", artist:"PUFFY"}, {title:"🎙️M", artist:"PRINCESS PRINCESS"}, {title:"🎙️そっけない", artist:"RADWIMPS"}, {title:"🎸なんでもないや", artist:"RADWIMPS", isSpecial:true}, {title:"🎙️すずめ", artist:"RADWIMPS"}, {title:"🎙️グランドエスケープ", artist:"RADWIMPS"},{title:"🎸🎤愛にできることはまだあるかい", artist:"RADWIMPS"}, {title:"🎸memeshe", artist:"RADWIMPS"}, {title:"🎙️ANIMA", artist:"ReoNa"}, {title:"🎙️春風", artist:"Rihwa"}, {title:"🎸いつか", artist:"SaucyDog"}, {title:"🎸結", artist:"SaucyDog"}, {title:"🎸シンデレラボーイ", artist:"SaucyDog"}, {title:"🎸眠り姫", artist:"sekai no owari"}, {title:"🎸輝く月のように", artist:"Superfly"}, {title:"🎙️君の知らない物語", artist:"supercell"}, {title:"🎸晩餐歌", artist:"tuki."}, {title:"🎸愛の賞味期限", artist:"tuki."}, {title:"🎸プロローグ", artist:"Uru"}, {title:"🎸🎤それを愛と呼ぶなら", artist:"Uru"}, {title:"🎸🎤LoveSong", artist:"Uru"}, {title:"🎸あなたがいることで", artist:"Uru"}, {title:"🎸フリージア", artist:"Uru"}, {title:"🎸3月9日", artist:"Uru"}, {title:"🎸怪獣の花唄", artist:"Vaundy"}, {title:"🎸踊り子", artist:"Vaundy"}, {title:"🎸そんなbitterな話", artist:"Vaundy"}, {title:"🎙️夜に駆ける", artist:"YOASOBI"}, {title:"🎙️怪物", artist:"YOASOBI"}, {title:"🎙️群青", artist:"YOASOBI"}, {title:"🎙️アイドル", artist:"YOASOBI"}, {title:"🎙️アンコール", artist:"YOASOBI"}, {title:"🎸Summersong", artist:"YUI"}, {title:"🎸HELLO", artist:"YUI"}, {title:"🎸Namidairo", artist:"YUI"}, {title:"🎸🎤YOU", artist:"YUI"}, {title:"🎸Good-bye days", artist:"YUI"}, {title:"🎸secret base", artist:"zone"}
 ];
 
 const modal = document.getElementById('amida-modal');
@@ -392,18 +152,14 @@ function filterList() {
   const filtered = songs.filter(s => {
     const title = kanaToHira(s.title.toLowerCase());
     const artist = kanaToHira(s.artist.toLowerCase());
-    const genre = kanaToHira((s.genre || "").toLowerCase());
-    return title.includes(q) || artist.includes(q) || genre.includes(q);
+    return title.includes(q) || artist.includes(q);
   });
   document.getElementById("songCount").innerText = songs.length;
   const t = document.getElementById("songTable");
-  t.innerHTML = "<tr><th>曲名 / 歌手</th><th>ジャンル</th><th>コピー</th></tr>";
+  t.innerHTML = "<tr><th>曲名 / 歌手</th><th>コピー</th></tr>";
   filtered.forEach(s => {
-    t.innerHTML += `<tr>
-    <td><strong>${s.title}</strong><br><small style="color:#666;">${s.artist}</small></td>
-    <td><span class="genre-tag">${s.genre || '未分類'}</span></td>
-    <td><button class="btn btn-copy" onclick="copyDirect('${s.title} / ${s.artist}')">📋</button></td>
-    </tr>`;
+    t.innerHTML += `<tr><td><strong>${s.title}</strong><br><small style="color:#666;">${s.artist}</small></td>
+    <td><button class="btn btn-copy" onclick="copyDirect('${s.title} / ${s.artist}')">📋</button></td></tr>`;
   });
 }
 
@@ -470,4 +226,5 @@ buildPickupList();
 filterList();
 </script>
 </body>
+
 </html>
